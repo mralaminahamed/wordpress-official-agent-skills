@@ -31,7 +31,7 @@ jobs:
       - name: Detect skills changes
         id: diff
         run: |
-          CHANGED=$(git diff HEAD upstream/trunk -- skills/ shared/ --name-only | head -100)
+          CHANGED=$(git diff HEAD upstream/trunk -- skills/ shared/ README.md --name-only | head -100)
           if [ -z "$CHANGED" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No skill changes detected."
@@ -41,11 +41,13 @@ jobs:
             echo "$CHANGED"
           fi
 
-      - name: Apply upstream skills
+      - name: Apply upstream skills and refresh upstream README
         if: steps.diff.outputs.changed == 'true' && inputs.dry_run != 'true'
         run: |
-          # Merge only the skills/ and shared/ trees from upstream, keep our additions
+          # Sync skills and shared refs from upstream; keep our additions
           git checkout upstream/trunk -- skills/ shared/
+          # Refresh upstream README (stored separately so our README.md is untouched)
+          git show upstream/trunk:README.md > README.upstream.md
 
       - name: Create PR
         if: steps.diff.outputs.changed == 'true' && inputs.dry_run != 'true'
@@ -55,12 +57,13 @@ jobs:
           commit-message: "chore: sync skills from WordPress/agent-skills"
           title: "chore: sync skills from WordPress/agent-skills"
           body: |
-            Automated sync of `skills/` and `shared/` from [WordPress/agent-skills](https://github.com/WordPress/agent-skills) trunk.
+            Automated sync of `skills/`, `shared/`, and `README.upstream.md` from [WordPress/agent-skills](https://github.com/WordPress/agent-skills) trunk.
 
             **Review checklist:**
             - [ ] No new skills conflict with `mralaminahamed/wp-dev-skills` trigger descriptions
             - [ ] Skill descriptions still correctly defer to our skills where boundaries were set
             - [ ] `.claude-plugin/plugin.json` version bumped if skill set changed substantially
+            - [ ] New skills added to the skills table in `README.md` if any appeared
           branch: chore/sync-upstream-skills
           delete-branch: true
           labels: upstream-sync
