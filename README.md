@@ -9,8 +9,11 @@ A Claude Code plugin that packages the [official WordPress agent-skills](https:/
 
 ## Installation
 
+Add the marketplace, then install the plugin:
+
 ```bash
-/plugin install wordpress-official-agent-skills/wordpress-official-agent-skills
+/plugin marketplace add mralaminahamed/wordpress-official-agent-skills
+/plugin install wordpress-official-agent-skills@wordpress-official-agent-skills
 ```
 
 Reload after install:
@@ -24,8 +27,9 @@ Reload after install:
 These two plugins are designed to coexist without trigger conflicts:
 
 ```bash
-/plugin install wp-dev-skills/wp-dev-skills
-/plugin install wordpress-official-agent-skills/wordpress-official-agent-skills
+/plugin marketplace add mralaminahamed/wp-dev-skills
+/plugin install wp-dev-skills@wp-dev-skills
+/plugin install wordpress-official-agent-skills@wordpress-official-agent-skills
 ```
 
 | Plugin | Owns |
