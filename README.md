@@ -102,7 +102,10 @@ wordpress-official-agent-skills/
 ├── shared/                  # Shared references (WP versions, Gutenberg mapping)
 ├── .github/workflows/
 │   ├── sync-upstream-skills.yml   # Weekly upstream skill sync
-│   └── upstream-sync.yml          # Weekly WP core/Gutenberg index refresh
+│   ├── upstream-sync.yml          # Weekly WP core/Gutenberg index refresh
+│   ├── ai-skill-maintenance.yml   # AI-assisted skill maintenance
+│   ├── ci.yml                     # Plugin/skill validation
+│   └── props-bot.yml              # Contributor attribution
 └── README.upstream.md       # Original WordPress/agent-skills README (auto-synced)
 ```
 
