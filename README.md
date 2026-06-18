@@ -1,41 +1,105 @@
-# WordPress Official Agent Skills — Claude Code Plugin
+# WordPress Official Agent Skills
 
-A Claude Code plugin that packages the [official WordPress agent-skills](https://github.com/WordPress/agent-skills) for one-command installation. All 17 skills install automatically — no manual file copying required.
+Expert-level WordPress knowledge for AI coding agents — Claude Code, Gemini CLI, Cursor, Windsurf, Cline, Codex, GitHub Copilot, opencode, and more.
+
+Skills covering blocks, themes, REST API, WP-CLI, performance, PHPStan, Playground, Interactivity API, Abilities API, and more. Skills activate automatically when their description matches your task.
 
 > **Mirror of** [WordPress/agent-skills](https://github.com/WordPress/agent-skills) · GPL-2.0-or-later  
 > Original upstream documentation: [README.upstream.md](README.upstream.md)
 
 ---
 
-## Installation
+<p align="center">
+  <a href="#skills">Skills</a> •
+  <a href="#install">Install</a> •
+  <a href="./INSTALL.md">Full install guide</a> •
+  <a href="./CONTRIBUTING.md">Contributing</a>
+</p>
 
-Add the marketplace, then install the plugin:
+---
+
+## Skills
+
+| Skill | Activates when |
+|---|---|
+| **blueprint** | Creating, editing, or reviewing WordPress Playground blueprint JSON files; setting up demo environments. |
+| **wordpress-router** | Classifying a WordPress repo (plugin/theme/blocks/WP core) and routing to the correct workflow or skill. |
+| **wp-abilities-api** | Working with the WordPress Abilities API: `wp_register_ability`, categories, REST exposure, permissions. |
+| **wp-abilities-audit** | Auditing a plugin's REST surface and proposing standardized Abilities API registrations. |
+| **wp-abilities-verify** | Verifying Abilities API registrations: enumerate abilities, check callbacks, validate permissions and schemas. |
+| **wp-block-development** | Developing Gutenberg blocks: `block.json`, attributes, dynamic rendering, deprecations, `@wordpress/scripts`. |
+| **wp-block-themes** | Developing WordPress block themes: `theme.json`, templates, patterns, style variations, Site Editor. |
+| **wp-interactivity-api** | Building or debugging Interactivity API: `data-wp-*` directives, store/state/actions, `viewScriptModule`. |
+| **wp-performance** | Investigating or improving WordPress performance: profiling, query optimization, object caching, cron, HTTP API. |
+| **wp-phpstan** | Configuring, running, or fixing PHPStan static analysis in WordPress projects. |
+| **wp-playground** | WordPress Playground workflows: disposable WP instances, blueprints, `@wp-playground/cli`, debugging. |
+| **wp-plugin-development** | Developing WordPress plugins: hooks, activation, admin UI, Settings API, security, release packaging. |
+| **wp-plugin-directory-guidelines** | GPL compliance, WP.org plugin directory guidelines, rejection reasons, naming/trademark rules. |
+| **wp-project-triage** | Deterministic inspection of a WordPress repository; structured JSON report for workflow guidance. |
+| **wp-rest-api** | Building or extending WordPress REST API: `register_rest_route`, controllers, schema, auth, CPT exposure. |
+| **wp-wpcli-and-ops** | WP-CLI operations: search-replace, db management, plugin/theme/user/content, cron, multisite, automation. |
+| **wpds** | Building UIs with the WordPress Design System: components, tokens, patterns. |
+
+## Install
+
+### Claude Code
 
 ```bash
 claude plugin marketplace add mralaminahamed/wordpress-official-agent-skills
 claude plugin install wordpress-official-agent-skills@wordpress-official-agent-skills
 ```
 
-Reload after install:
+### Gemini CLI
 
 ```bash
-/reload-plugins
+gemini extensions install https://github.com/mralaminahamed/wordpress-official-agent-skills
 ```
+
+### Cursor / Windsurf / Cline / GitHub Copilot
+
+```bash
+# Cursor
+mkdir -p .cursor/rules && curl -fsSL https://raw.githubusercontent.com/mralaminahamed/wordpress-official-agent-skills/trunk/src/rules/wordpress-official-agent-skills.md > .cursor/rules/wordpress-official-agent-skills.mdc
+
+# Windsurf
+mkdir -p .windsurf/rules && curl -fsSL https://raw.githubusercontent.com/mralaminahamed/wordpress-official-agent-skills/trunk/src/rules/wordpress-official-agent-skills.md > .windsurf/rules/wordpress-official-agent-skills.md
+
+# Cline
+curl -fsSL https://raw.githubusercontent.com/mralaminahamed/wordpress-official-agent-skills/trunk/src/rules/wordpress-official-agent-skills.md > .clinerules/wordpress-official-agent-skills.md
+
+# GitHub Copilot
+curl -fsSL https://raw.githubusercontent.com/mralaminahamed/wordpress-official-agent-skills/trunk/src/rules/wordpress-official-agent-skills.md > .github/copilot-instructions.md
+```
+
+### opencode / AGENTS.md-based agents
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/mralaminahamed/wordpress-official-agent-skills/trunk/AGENTS.md > AGENTS.md
+```
+
+### All other agents (Continue, Roo, Augment, Amp, Warp, …)
+
+```bash
+npx skills add mralaminahamed/wordpress-official-agent-skills -a <agent-slug>
+```
+
+Full per-agent install matrix and options → [**INSTALL.md**](./INSTALL.md).
 
 ### Pair with wp-dev-skills
 
 These two plugins are designed to coexist without trigger conflicts:
 
 ```bash
+claude plugin marketplace add mralaminahamed/wordpress-official-agent-skills
 claude plugin marketplace add mralaminahamed/wp-dev-skills
-claude plugin install wp-dev-skills@wp-dev-skills
 claude plugin install wordpress-official-agent-skills@wordpress-official-agent-skills
+claude plugin install wp-dev-skills@wp-dev-skills
 ```
 
 | Plugin | Owns |
 |---|---|
+| `wordpress-official-agent-skills` | Blocks, REST API, WP-CLI, Playground, Abilities API, performance, PHPStan config, block themes, Interactivity API |
 | `wp-dev-skills` | Plugin audit, release/version sync, WP.org SVN deploy, PHPStan stubs scaffold, GitHub contribution flow, QA fixes |
-| `wordpress-official-agent-skills` | Block development, REST API, WP-CLI ops, Playground, Abilities API, performance, PHPStan config, block themes, Interactivity API |
 
 Boundaries are documented in each plugin's skill trigger descriptions — no ambiguous overlaps.
 
@@ -87,26 +151,34 @@ To trigger manually:
 
 ---
 
-## Plugin structure
+## Repo layout
 
 ```
 wordpress-official-agent-skills/
 ├── .claude-plugin/
-│   └── plugin.json          # Claude Code plugin manifest
-├── skills/                  # 17 skill directories (auto-discovered)
+│   ├── plugin.json              # Claude Code plugin manifest
+│   └── marketplace.json         # Claude Code marketplace manifest
+├── .codex/
+│   ├── config.toml              # Codex CLI features
+│   └── hooks.json               # Codex SessionStart hook
+├── src/rules/
+│   └── wordpress-official-agent-skills.md  # Rule file for Cursor/Windsurf/Cline/Copilot
+├── .github/
+│   ├── copilot-instructions.md  # GitHub Copilot rule file
+│   └── workflows/               # CI and upstream sync
+├── AGENTS.md                    # Universal context (opencode, Codex, Devin, …)
+├── GEMINI.md                    # Gemini CLI context
+├── gemini-extension.json        # Gemini CLI extension manifest
+├── package.json                 # npm metadata for npx skills
+├── INSTALL.md                   # Full per-agent install matrix
+├── skills/                      # 17 skill directories (auto-discovered)
 │   ├── wp-plugin-development/
 │   │   ├── SKILL.md
 │   │   ├── references/
 │   │   └── scripts/
 │   └── ...
-├── shared/                  # Shared references (WP versions, Gutenberg mapping)
-├── .github/workflows/
-│   ├── sync-upstream-skills.yml   # Weekly upstream skill sync
-│   ├── upstream-sync.yml          # Weekly WP core/Gutenberg index refresh
-│   ├── ai-skill-maintenance.yml   # AI-assisted skill maintenance
-│   ├── ci.yml                     # Plugin/skill validation
-│   └── props-bot.yml              # Contributor attribution
-└── README.upstream.md       # Original WordPress/agent-skills README (auto-synced)
+├── shared/                      # Shared references (WP versions, Gutenberg mapping)
+└── README.upstream.md           # Original WordPress/agent-skills README (auto-synced)
 ```
 
 ---
