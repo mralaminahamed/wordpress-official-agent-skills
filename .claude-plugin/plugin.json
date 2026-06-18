@@ -3,6 +3,7 @@
   "name": "wordpress-official-agent-skills",
   "displayName": "WordPress Official Agent Skills",
   "version": "1.0.0",
+  "logo": "./icon.svg",
   "description": "Official WordPress agent-skills packaged as a Claude Code plugin. Mirror of WordPress/agent-skills — 17 expert skills covering plugin development, block development, REST API, WP-CLI, performance, PHPStan, Playground, Abilities API, and more.",
   "author": {
     "name": "Al Amin Ahamed",
