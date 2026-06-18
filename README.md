@@ -4,6 +4,9 @@ Expert-level WordPress knowledge for AI coding agents — Claude Code, Gemini CL
 
 Skills covering blocks, themes, REST API, WP-CLI, performance, PHPStan, Playground, Interactivity API, Abilities API, and more. Skills activate automatically when their description matches your task.
 
+[![Cursor Directory](https://img.shields.io/badge/Cursor_Directory-Plugin-21759b?logo=cursor)](https://cursor.directory/plugins/wordpress-official-agent-skills)
+[![License: GPL-2.0](https://img.shields.io/badge/License-GPL--2.0-blue.svg)](LICENSE)
+
 > **Mirror of** [WordPress/agent-skills](https://github.com/WordPress/agent-skills) · GPL-2.0-or-later  
 > Original upstream documentation: [README.upstream.md](README.upstream.md)
 
@@ -41,6 +44,14 @@ Skills covering blocks, themes, REST API, WP-CLI, performance, PHPStan, Playgrou
 | **wpds** | Building UIs with the WordPress Design System: components, tokens, patterns. |
 
 ## Install
+
+### Cursor Directory
+
+Browse and install directly from [cursor.directory](https://cursor.directory/plugins/wordpress-official-agent-skills):
+
+```
+https://cursor.directory/plugins/wordpress-official-agent-skills
+```
 
 ### Claude Code
 
