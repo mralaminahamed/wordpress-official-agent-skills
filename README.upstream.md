@@ -33,10 +33,10 @@ Agent Skills solve this by giving AI assistants **expert-level WordPress knowled
 | **wp-wpcli-and-ops** | WP-CLI commands, automation, multisite, search-replace |
 | **wp-performance** | Profiling, caching, database optimization, Server-Timing |
 | **wp-phpstan** | PHPStan static analysis for WordPress projects (config, baselines, WP-specific typing) |
-| **wp-playground** | WordPress Playground for instant local environments |
+| **wp-playground** | WordPress Playground routing, CLI runs, browser previews, and snapshots |
 | **wpds** | WordPress Design System |
 | **wp-plugin-directory-guidelines** | WordPress Plugin Directory Guidelines |
-| **blueprint** | WordPress Playground Blueprints for declarative Playground environment setup |
+| **blueprint** | WordPress Playground Blueprints for declarative environment setup |
 
 ## How It Works
 
@@ -139,6 +139,13 @@ This copies skills into:
 - `.claude/skills/` for Claude Code (project-level)
 - `.cursor/skills/` for Cursor (project-level)
 
+Antigravity is opt-in for project-level installs. To also copy skills into `.agents/skills/`, include `antigravity` when building and installing:
+
+```bash
+node shared/scripts/skillpack-build.mjs --clean --targets=codex,vscode,claude,cursor,antigravity
+node shared/scripts/skillpack-install.mjs --dest=../your-wp-project --targets=codex,vscode,claude,cursor,antigravity
+```
+
 ### Install globally for Cursor
 
 ```bash
@@ -146,6 +153,15 @@ node shared/scripts/skillpack-install.mjs --targets=cursor-global
 ```
 
 This installs skills to `~/.cursor/skills/` where Cursor will discover them.
+
+### Install globally for Antigravity
+
+```bash
+node shared/scripts/skillpack-build.mjs --clean --targets=antigravity
+node shared/scripts/skillpack-install.mjs --targets=antigravity-global
+```
+
+This installs skills to `~/.gemini/antigravity/skills/` where Antigravity will discover them.
 
 ### Available options
 
@@ -166,7 +182,7 @@ Copy any skill folder from `skills/` into your project's instructions directory 
 
 ## Compatibility
 
-- **WordPress 6.9+** (PHP 7.2.24+)
+- **WordPress 7.0+** (PHP 7.4.0+)
 - Works with any AI assistant that supports project-level instructions
 
 ## Contributing
